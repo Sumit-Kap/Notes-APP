@@ -24,9 +24,10 @@ Router.post("/app/user", (req, res) => {
 Router.post("/app/user/auth", (req, res) => {
   let userName = req.body.username;
   let password = req.body.password;
+  let token = jwt.encode(password, config.authTokenSalt);
   mysqlConnection.query(
     "Select * from User where Username=? and Password=?",
-    [userName, password],
+    [userName, token],
     (err, rows, field) => {
       if (!err) {
         console.log("printing", rows);
