@@ -7,7 +7,8 @@ const config = require("../appConfig/config");
 Router.post("/app/user", (req, res) => {
   let userName = req.body.username;
   let password = req.body.password;
-  let post = [userName, password, 24];
+  let token = jwt.encode(password, config.authTokenSalt);
+  let post = [userName, token, 24];
   mysqlConnection.query(
     "Insert into User(Username,Password,Age) values (?,?,?)",
     post,
